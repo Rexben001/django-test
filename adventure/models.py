@@ -35,6 +35,8 @@ class Room(models.Model):
         return [p.user.username for p in Player.objects.filter(currentRoom=self.id) if p.id != int(currentPlayerID)]
     def playerUUIDs(self, currentPlayerID):
         return [p.uuid for p in Player.objects.filter(currentRoom=self.id) if p.id != int(currentPlayerID)]
+    def __str__(self):
+        return self.title
 
 
 class Player(models.Model):
@@ -51,6 +53,7 @@ class Player(models.Model):
         except Room.DoesNotExist:
             self.initialize()
             return self.room()
+   
 
 @receiver(post_save, sender=User)
 def create_user_player(sender, instance, created, **kwargs):
